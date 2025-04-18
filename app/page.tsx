@@ -1,5 +1,5 @@
 
-import Signin from "./pages/Signin/page.tsx"
+import Signin from "./pages/Signin/page"
 
 export default function Home() {
   return (

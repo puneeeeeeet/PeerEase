@@ -6,7 +6,7 @@ const Signin = () => {
   return (
     <div className="bg-[#DEDEDE] w-full h-screen flex items-center justify-center">
       <div className="bg-white w-1/4 h-3/5 flex-col relative ">
-            <Image className=" absolute z-10 top-[-100px]" src={logo} alt={logo}></Image>
+            <Image className=" absolute z-10 top-[-100px]" src={logo} alt="logo"></Image>
             <div className=" flex flex-col gap-1 items-center  absolute inset-x-0 bottom-[180px] ">
             <input  className=" border-1 w-3/4 rounded-md border-[#B0B0B0] " placeholder=" Username or Email" autoFocus></input>
             <input className=" border-1 w-3/4 rounded-md border-[#B0B0B0]" placeholder=" Password"></input>
