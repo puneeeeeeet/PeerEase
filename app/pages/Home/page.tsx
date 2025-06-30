@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from "next/image"
 import logo from '../../assets/logo.png'
-import homepage from '../../assets/homepage2.jpg'
+import homepage from '../../assets/home3.jpg'
 import Link from 'next/link'
 
 const HomeComponent = () => {
@@ -10,19 +10,19 @@ const HomeComponent = () => {
     <div className="flex justify-between py-1.5 items-center shadow-xl fixed w-full bg-white">
       {/* <Image src={logo} alt="logo"/> */}
       <div className="p-2  w-fit text-4xl font-bold pl-10"> PeerEase</div>
-      <div className="flex gap-2 pr-30 h-fit">
-      <div className="p-2 text-xl "> Home</div>
-      <div className="p-2 text-xl "> About</div>
-      <div className="p-2 text-xl "> How it Works</div>
-      <div className="p-2 text-xl "> Join as Mentor</div>
-      <div className="p-2 text-xl text-white bg-[#6e7bdc] rounded-md"> Get Help!</div>
+      <div className="flex gap-2 pr-30 h-fit text-xl font-bold">
+      <div className="p-2 "> Home</div>
+      <div className="p-2  "> About</div>
+      <div className="p-2 "> How it Works</div>
+      <div className="p-2 "> Join as Mentor</div>
+      <div className="p-2 text-white bg-[#6e7bdc] rounded-md"> Get Help!</div>
       </div>
       
     </div>
     <div className="flex h-screen bg-gray-100">
-      <div className="w-1/2 p-10 flex-col flex gap-2 h-full mt-20  ">
-        <p className="text-7xl  font-bold mt-44 ">Bridge the Gap From Doubt to Success</p>
-        <Link className="p-3 bg-[#6e7bdc] rounded-md text-xl text-white w-fit " href='/'>Get Started</Link>
+      <div className="w-1/2 p-10 flex-col flex gap-2 h-full mt-20  px-20">
+        <p className="text-7xl  font-bold mt-44 ">Bridge the Gap From Doubt to Success...</p>
+        <Link className="p-3 bg-[#6e7bdc] rounded-md text-xl text-white w-fit mt-10" href='/'>Get Started</Link>
       </div>
       <div className="p-20">
         <Image src={homepage} alt="home" className="shadow-2xl w-100  mt-36"></Image>
