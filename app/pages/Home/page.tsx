@@ -10,7 +10,7 @@ const HomeComponent = () => {
     <div className="flex justify-between py-1.5 items-center shadow-xl fixed w-full bg-white">
       {/* <Image src={logo} alt="logo"/> */}
       <div className="p-2  w-fit text-4xl font-bold pl-10"> PeerEase</div>
-      <div className="flex gap-2 pr-30 h-fit text-xl font-bold">
+      <div className="flex gap-2 pr-30 h-fit text-xl font-bold text-gray-700">
       <div className="p-2 "> Home</div>
       <div className="p-2  "> About</div>
       <div className="p-2 "> How it Works</div>

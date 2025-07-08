@@ -1,93 +1,115 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import logo from "../assets/logo.png";
-import google from "../assets/google.svg";
-import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
+import { auth, db } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [college, setCollege] = useState("");
   const router = useRouter();
-  const [role, setRole] = useState();
+
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const handleSignUp = async () => {
-    try {
-      const res = await createUserWithEmailAndPassword(email, password);
-      console.log({ res });
-      setEmail("");
-      setPassword("");
-      router.push("/SignIn");
-    } catch (error) {
-      console.log(error);
-    }
+    const handleSignUp = async () => {
+      console.log("Attempting signup with:", { email, password, role, college });
+    
+      try {
+        const res = await createUserWithEmailAndPassword(email, password);
+    
+        console.log("Firebase signup response:", res);
+    
+        if (!res || !res.user) {
+          alert("Signup failed: no user returned from Firebase.");
+          return;
+        }
+    
+        const user = res.user;
+    
+        await setDoc(doc(db, "users", user.uid), {
+          email,
+          role,
+          college,
+          createdAt: new Date(),
+        });
+    
+        alert("Signup successful!");
+        router.push("/SignIn");
+      } catch (error: any) {
+        console.error("Signup error:", error);
+        alert("Firebase error: " + (error?.message || "Unknown error"));
+      }
+    };
+    
 
-    console.log("user credentials: ", { email, password });
-  };
 
   return (
-    <>
-      <div className="bg-[#DEDEDE] w-full h-screen flex items-center justify-center">
-        <div className="bg-white w-1/4 h-3/5 flex-col relative ">
-          <Image
-            className=" absolute top-[-90px] "
-            src={logo}
-            alt="logo"
-          ></Image>
-          <div className=" flex flex-col gap-2 items-center  absolute inset-x-0 bottom-10 z-10 ">
-            <input
-              type="email"
-              className=" border-1 w-4/5 rounded-sm py-2 text-xl border-[#B0B0B0] px-1"
-              value={email}
-              placeholder="Username or Email"
-              onChange={(e) => setEmail(e.target.value)}
-              autoFocus
-            ></input>
-            <input
-              className=" border-1 w-4/5 rounded-sm py-2 px-1 text-xl border-[#B0B0B0]"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            ></input>
-            {/* <label className="block text-sm font-medium">I am a:</label>
-            <select
-              name="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="mt-1 block w-full border rounded-md p-2"
-            >
-              <option value="">Select a role</option>
-              <option value="newbie">Newbie</option>
-              <option value="expert">Expert</option>
-            </select> */}
+    <div className="bg-[#DEDEDE] w-full h-screen flex items-center justify-center">
+      <div className="bg-white w-full max-w-md h-fit py-12 px-8 rounded-md shadow-xl relative">
+        {/* <Image
+          className="absolute top-[-170px] left-1/2 transform -translate-x-1/2"
+          src={logo}
+          alt="logo"
+        /> */}
+        <div className="flex flex-col gap-4 mt-10">
+          <input
+            type="email"
+            className="border border-[#B0B0B0] rounded-md py-2 px-3 text-lg"
+            value={email}
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            autoFocus
+          />
+          <input
+            type="password"
+            className="border border-[#B0B0B0] rounded-md py-2 px-3 text-lg"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+          <select
+            className="border border-[#B0B0B0] rounded-md py-2 px-3 text-lg"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          >
+            <option value="">Select your role</option>
+            <option value="newbie">Student</option>
+            <option value="expert">Mentor</option>
+          </select>
 
+          <input
+            type="text"
+            className="border border-[#B0B0B0] rounded-md py-2 px-3 text-lg"
+            value={college}
+            placeholder="Enter your college name"
+            onChange={(e) => setCollege(e.target.value)}
+            required
+          />
+          <button
+            onClick={handleSignUp}
+            className="bg-[#3CA6AC] text-white text-xl font-bold rounded-md py-3 hover:bg-[#34999f] transition"
+          >
+            Sign Up
+          </button>
+          <div className="flex justify-center gap-2 text-sm mt-4">
+            <p className="text-gray-600">Already have an account?</p>
             <button
-              onClick={handleSignUp}
-              className="bg-[#3CA6AC] w-4/5 rounded-md h-12 text-white font-bold text-xl cursor-pointer"
+              className="text-blue-600 font-semibold"
+              onClick={() => router.push("/SignIn")}
             >
-              Sign Up
+              Sign In
             </button>
-            <div className="flex w-full justify-around px-2">
-              <div className="text-red-600 text-[15px] cursor-pointer">
-                Forgot Password?
-              </div>
-              <button className="text-blue-800 font-bold cursor-pointer">
-                Sign Up
-              </button>
-            </div>
-
-            <p className="text-[#B0B0B0] mt-4"> Or you can sign in with </p>
-            {/* <button className="cursor-pointer" ><Image src={google} alt="Google"></Image></button> */}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
